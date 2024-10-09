@@ -24,3 +24,22 @@ function creerPlateau() {
     }
 }
 
+// Gérer le clic sur une cellule
+elementPlateau.addEventListener('click', (e) => {
+    if (partieTerminee) return;
+
+    const colonne = e.target.dataset.colonne;
+    if (colonne !== undefined) {
+        const indiceColonne = parseInt(colonne);
+        const indiceLigne = trouverLigneDisponible(indiceColonne);
+        if (indiceLigne !== -1) {
+            placerPion(indiceLigne, indiceColonne);
+            if (verifierVictoire(indiceLigne, indiceColonne)) {
+                partieTerminee = true;
+                elementMessage.textContent = `${joueurActuel.toUpperCase()} gagne !`;
+            } else {
+                changerJoueur();
+            }
+        }
+    }
+});
